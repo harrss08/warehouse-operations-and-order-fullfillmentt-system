@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMARTWARE AI – Intelligent Warehouse & Order Fulfillment System</title>
+<style>
+:root{
+  --bg:#071a26;--panel:#0d2636;--panel2:#123247;--panel3:#173c50;
+  --line:#24516a;--text:#f3f7fa;--muted:#9bb1bf;--accent:#18c7bd;--accent2:#ffb703;
+  --green:#35d07f;--red:#ff5c6c;--orange:#ff8c42;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit} button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:275px;background:linear-gradient(180deg,#061722 0%,#0a2d40 55%,#075b63 100%);color:var(--text);padding:24px 16px;position:fixed;inset:0 auto 0 0;overflow:auto;border-right:1px solid #17465a}
+.logo{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:800;margin:2px 10px 18px}
+.logoMark{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#0ea5a0);color:#06212b;display:grid;place-items:center;font-size:22px;font-weight:900;box-shadow:0 8px 22px #18c7bd33}
+.logoSub{background:#ffffff12;border:1px solid #ffffff18;border-radius:10px;padding:10px 12px;font-size:12px;margin-bottom:18px;color:#b9d0dc}
+.nav button{width:100%;border:0;background:transparent;color:#dceaf0;text-align:left;padding:13px 12px;border-radius:11px;margin:3px 0;font-size:14px}
+.nav button:hover,.nav button.active{background:linear-gradient(90deg,#18c7bd2e,#ffb70318);color:#fff;border-left:3px solid var(--accent)}
+.main{margin-left:275px;width:calc(100% - 275px);background:var(--bg);min-height:100vh}
+.topbar{height:80px;background:#0a2231;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;padding:0 32px;position:sticky;top:0;z-index:20}
+.globalSearch{flex:1;max-width:700px;border:1px solid var(--line);background:#102f41;color:var(--text);border-radius:13px;padding:14px 18px;outline:none}.globalSearch::placeholder{color:#7893a2}
+.topRight{margin-left:auto;display:flex;gap:10px;align-items:center}.iconBtn,.avatar{border:1px solid var(--line);background:#123247;color:#dceaf0;width:44px;height:44px;border-radius:12px;display:grid;place-items:center}.avatar{border-radius:50%;background:var(--accent2);color:#17230d;font-weight:800;border:0;cursor:pointer}.profileWrap{position:relative}.profileMenu{display:none;position:absolute;right:0;top:54px;width:260px;background:#092331;border:1px solid #2b6579;border-radius:16px;padding:10px;z-index:200;box-shadow:0 18px 45px #0008}.profileMenu.open{display:block}.profileMenu button{width:100%;text-align:left;background:transparent;border:0;color:#dff5f5;padding:12px;border-radius:10px;cursor:pointer}.profileMenu button:hover{background:#123b4e}.profileHead{display:flex;gap:10px;align-items:center;padding:10px;border-bottom:1px solid #214c60;margin-bottom:6px}.profileHead small{display:block;color:#8fb0bd;margin-top:3px}.profileBig{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#06212b;font-weight:900}.profileMenu #cartCount{float:right;background:var(--accent);color:#06212b;padding:2px 7px;border-radius:20px;font-weight:900}.product{cursor:pointer}.product .btn{cursor:pointer}
+.content{padding:32px}.pageTitle{font-size:30px;margin:0 0 6px;color:#f5fbfd}.subtitle{color:var(--muted);margin:0 0 25px}
+.hero{background:linear-gradient(110deg,#082536,#07576a 58%,#b56b00);color:#fff;border:1px solid #236276;border-radius:22px;padding:28px;display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;box-shadow:0 16px 40px #00000030}
+.hero h2{margin:0 0 8px;font-size:28px}.hero p{margin:0;color:#d7eef2}.heroAI{background:var(--accent2);color:#16220d;border:0;border-radius:14px;padding:14px 18px;font-weight:900;box-shadow:0 8px 20px #ffb70333;transition:.2s}.heroAI:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 8px 24px #00000025}.stat strong{display:block;font-size:26px;margin-top:6px;color:#fff}.muted{color:var(--muted);font-size:13px}.section{margin-top:26px}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sectionHead h3{margin:0}
+.storeTools{display:flex;gap:12px;margin-bottom:20px}.storeTools input{flex:1;padding:15px 17px;border:1px solid var(--line);border-radius:13px;outline:none;background:#102f41;color:var(--text)}.storeTools select{min-width:250px;padding:14px;border:1px solid var(--line);border-radius:13px;background:#102f41;color:var(--text)}
+.categoryStrip{display:flex;gap:10px;overflow:auto;padding:3px 2px 14px}.catBtn{white-space:nowrap;border:1px solid var(--line);background:#102f41;color:#9fe5e1;padding:10px 14px;border-radius:999px}.catBtn:hover{border-color:var(--accent);color:#fff}.catBtn.active{background:var(--accent);color:#06212b;border-color:var(--accent);font-weight:800}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.product{padding:0;overflow:hidden;position:relative}.productImg{height:210px;background:linear-gradient(145deg,#183c4d,#0d2939);display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}.productImg img{width:100%;height:100%;object-fit:contain;mix-blend-mode:normal;display:block;transition:transform .25s}.product:hover .productImg img{transform:scale(1.035)}.productBody{padding:15px}.brand{font-size:12px;font-weight:800;color:#36d8ce}.product h4{margin:5px 0 7px;font-size:15px;line-height:1.35;color:#f3f7fa}.stars{font-size:13px;color:var(--accent2)}.price{font-size:20px;font-weight:900;margin:8px 0;color:#fff}.mrp{text-decoration:line-through;color:#718b99;font-size:12px;margin-left:5px}.discount{color:var(--green);font-size:12px;font-weight:700}.location{font-size:11px;color:var(--muted);margin:9px 0}.badge{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;background:#143d2a;color:#5be89b}.badge.low{background:#49340d;color:#ffd166}.badge.out{background:#451d25;color:#ff7d8a}
+.btn{border:0;background:var(--accent);color:#06212b;border-radius:10px;padding:10px 13px;font-weight:850}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn.secondary{background:#173c50;color:#aee9e5;border:1px solid #2b6279}.btn.block{width:100%}.btn:disabled{opacity:.45;cursor:not-allowed}
+.empty{padding:55px;text-align:center;color:var(--muted);background:var(--panel);border:1px dashed #37647a;border-radius:18px;grid-column:1/-1}
+.aiBox{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}.aiHead{background:linear-gradient(100deg,#075b63,#0ea5a0,#b56b00);color:#fff;padding:20px}.aiChat{min-height:360px;max-height:470px;overflow:auto;padding:20px;background:#081f2c}.msg{max-width:78%;padding:13px 15px;border-radius:15px;margin:8px 0;line-height:1.5}.bot{background:#123247;border:1px solid #2a5a70;color:#e9f4f7}.user{background:#0ea5a0;color:#06212b;margin-left:auto}.aiInput{display:flex;gap:10px;padding:15px;border-top:1px solid var(--line);background:#0b2636}.aiInput input{flex:1;border:1px solid var(--line);border-radius:12px;padding:13px;background:#102f41;color:var(--text)}.aiInput input::placeholder{color:#7893a2}
+.tableWrap{overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:13px;border-bottom:1px solid #1e465c;text-align:left;font-size:13px}.table th{background:#123247;color:#bde9e5}.timeline{display:flex;gap:7px;flex-wrap:wrap}.step{padding:9px 11px;border-radius:10px;background:#173c50;color:#9eb5c1;font-size:12px}.step.done{background:#143d2a;color:#5be89b}.step.current{background:var(--accent);color:#06212b}.categoryCards{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}.categoryCard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}.categoryIcon{font-size:34px;margin-bottom:8px}.toast{position:fixed;right:25px;bottom:25px;background:#061722;color:#fff;border:1px solid #2c657b;padding:14px 18px;border-radius:12px;box-shadow:0 10px 30px #0007;display:none;z-index:100}
+@media(max-width:1100px){.products{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.categoryCards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.sidebar{width:75px}.sidebar .logo span,.sidebar .logoSub,.nav button span{display:none}.logo{margin-left:7px}.main{margin-left:75px;width:calc(100% - 75px)}.products{grid-template-columns:repeat(2,1fr)}.content{padding:20px}.topbar{padding:0 15px}.hero{display:block}.heroAI{display:inline-block;margin-top:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><div class="logoMark">KW</div><span>SMARTWARE AI</span></div>
+  <div class="logoSub">KW · Warehouse Intelligence</div>
+  <div class="nav" id="nav"></div>
+</aside>
+<main class="main">
+<header class="topbar">
+  <input id="globalSearch" class="globalSearch" placeholder="Search products, brands, orders, racks...">
+  <div class="topRight"><button class="iconBtn" onclick="showPage('notifications')">🔔</button><div class="profileWrap"><button class="avatar" onclick="toggleProfile()">H</button><div id="profileMenu" class="profileMenu"><div class="profileHead"><div class="profileBig">H</div><div><b>Harika</b><small>SmartWare Customer</small></div></div><button onclick="showProfilePage('orders')">📦 My Orders</button><button onclick="showProfilePage('cart')">🛒 My Cart <span id="cartCount">0</span></button><button onclick="showProfilePage('account')">👤 My Profile</button></div></div></div>
+</header>
+<div class="content" id="appContent"></div>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const img = (url) => url;
+const products = [
+/* ELECTRONICS */
+{id:'ELEC001',name:'HP Pavilion 15 Laptop',brand:'HP',cat:'Electronics',price:59999,mrp:69999,qty:18,min:10,rack:'A-03',shelf:'02',bin:'B-12',img:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC002',name:'Dell Inspiron 15 Laptop',brand:'Dell',cat:'Electronics',price:57990,mrp:64990,qty:12,min:8,rack:'A-04',shelf:'01',bin:'B-05',img:'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC003',name:'Lenovo IdeaPad Slim 3',brand:'Lenovo',cat:'Electronics',price:44990,mrp:51990,qty:23,min:10,rack:'A-05',shelf:'02',bin:'B-07',img:'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC004',name:'ASUS Vivobook 15',brand:'ASUS',cat:'Electronics',price:52990,mrp:59990,qty:9,min:8,rack:'A-06',shelf:'01',bin:'B-03',img:'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC005',name:'MacBook Air M3',brand:'Apple',cat:'Electronics',price:99990,mrp:114900,qty:7,min:5,rack:'A-07',shelf:'03',bin:'B-02',img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC006',name:'iPhone 16',brand:'Apple',cat:'Electronics',price:79900,mrp:79900,qty:16,min:8,rack:'A-08',shelf:'02',bin:'B-01',img:'https://images.unsplash.com/photo-1592286927505-2fd6e0e1d6c5?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC007',name:'Galaxy S25',brand:'Samsung',cat:'Electronics',price:74999,mrp:84999,qty:11,min:7,rack:'A-09',shelf:'01',bin:'B-09',img:'https://images.unsplash.com/photo-1610945264803-c22b62d2a7b3?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC008',name:'WH-1000XM5 Headphones',brand:'Sony',cat:'Electronics',price:26990,mrp:34990,qty:25,min:10,rack:'A-10',shelf:'02',bin:'B-11',img:'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=85'},
+/* SMART APPLIANCES */
+{id:'APPL001',name:'55-inch 4K Smart TV',brand:'LG',cat:'Smart Appliances',price:44990,mrp:59990,qty:8,min:6,rack:'B-01',shelf:'01',bin:'B-01',img:'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL002',name:'55-inch Crystal 4K TV',brand:'Samsung',cat:'Smart Appliances',price:52990,mrp:69990,qty:5,min:6,rack:'B-02',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL003',name:'Bravia 55 4K TV',brand:'Sony',cat:'Smart Appliances',price:67990,mrp:79990,qty:6,min:5,rack:'B-03',shelf:'02',bin:'B-04',img:'https://images.unsplash.com/photo-1461151304267-38535e780c79?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL004',name:'340L Frost Free Refrigerator',brand:'Whirlpool',cat:'Smart Appliances',price:39990,mrp:48990,qty:10,min:5,rack:'B-04',shelf:'01',bin:'B-06',img:'https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL005',name:'8kg Front Load Washing Machine',brand:'IFB',cat:'Smart Appliances',price:32990,mrp:41990,qty:7,min:5,rack:'B-05',shelf:'02',bin:'B-03',img:'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL006',name:'1.5 Ton Inverter AC',brand:'Voltas',cat:'Smart Appliances',price:36990,mrp:44990,qty:13,min:6,rack:'B-06',shelf:'01',bin:'B-08',img:'https://images.unsplash.com/photo-1631545806609-9c8f9b4e6b1d?auto=format&fit=crop&w=900&q=85'},
+/* AUTOMOBILES */
+{id:'AUTO001',name:'Car Dash Camera Pro',brand:'70mai',cat:'Automobiles',price:6999,mrp:8999,qty:21,min:8,rack:'C-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=85'},
+{id:'AUTO002',name:'Car Battery 55Ah',brand:'Exide',cat:'Automobiles',price:5899,mrp:6999,qty:14,min:7,rack:'C-02',shelf:'02',bin:'B-05',img:'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=900&q=85'},
+{id:'AUTO003',name:'Full Face Helmet',brand:'Vega',cat:'Automobiles',price:1899,mrp:2499,qty:30,min:10,rack:'C-03',shelf:'01',bin:'B-07',img:'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=900&q=85'},
+{id:'AUTO004',name:'Bike Mobile Holder',brand:'Bobo',cat:'Automobiles',price:699,mrp:999,qty:42,min:15,rack:'C-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1558980664-10ea42a5c8e9?auto=format&fit=crop&w=900&q=85'},
+{id:'AUTO005',name:'Car Air Purifier',brand:'Philips',cat:'Automobiles',price:4999,mrp:6499,qty:9,min:6,rack:'C-05',shelf:'02',bin:'B-04',img:'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=900&q=85'},
+/* GROCERIES */
+{id:'GROC001',name:'Basmati Rice 5 kg',brand:'India Gate',cat:'Groceries',price:699,mrp:799,qty:48,min:20,rack:'D-01',shelf:'01',bin:'B-01',img:'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC002',name:'Sunflower Oil 5 L',brand:'Fortune',cat:'Groceries',price:749,mrp:899,qty:36,min:15,rack:'D-02',shelf:'02',bin:'B-02',img:'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC003',name:'Iodized Salt 1 kg',brand:'Tata',cat:'Groceries',price:28,mrp:30,qty:75,min:25,rack:'D-03',shelf:'01',bin:'B-05',img:'https://images.unsplash.com/photo-1518110925495-5aa8c4f65d8d?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC004',name:'Whole Wheat Atta 5 kg',brand:'Aashirvaad',cat:'Groceries',price:299,mrp:345,qty:41,min:15,rack:'D-04',shelf:'02',bin:'B-06',img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC005',name:'Classic Corn Flakes 500 g',brand:'Kellogg’s',cat:'Groceries',price:199,mrp:240,qty:27,min:10,rack:'D-05',shelf:'01',bin:'B-03',img:'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC006',name:'Classic Instant Coffee 100 g',brand:'Nescafé',cat:'Groceries',price:299,mrp:345,qty:19,min:8,rack:'D-06',shelf:'02',bin:'B-07',img:'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=900&q=85'},
+/* DRESSES */
+{id:'DRES001',name:'Slim Fit Blue Jeans',brand:'Levi’s',cat:'Dresses',price:2499,mrp:3999,qty:24,min:10,rack:'E-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES002',name:'Classic Cotton T-Shirt',brand:'Puma',cat:'Dresses',price:999,mrp:1499,qty:31,min:12,rack:'E-02',shelf:'02',bin:'B-04',img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES003',name:'Formal White Shirt',brand:'Allen Solly',cat:'Dresses',price:1599,mrp:2499,qty:18,min:8,rack:'E-03',shelf:'01',bin:'B-06',img:'https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES004',name:'Floral Casual Dress',brand:'Biba',cat:'Dresses',price:2199,mrp:3299,qty:15,min:7,rack:'E-04',shelf:'03',bin:'B-03',img:'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES005',name:'Women’s Party Dress',brand:'ONLY',cat:'Dresses',price:2799,mrp:4499,qty:11,min:6,rack:'E-05',shelf:'02',bin:'B-09',img:'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES006',name:'Regular Fit Casual Shirt',brand:'Max',cat:'Dresses',price:899,mrp:1399,qty:29,min:10,rack:'E-06',shelf:'01',bin:'B-08',img:'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=900&q=85'},
+/* KURTAS */
+{id:'KUR001',name:'Pure Cotton Kurta',brand:'FabIndia',cat:'Kurtas & Ethnic Wear',price:1899,mrp:2499,qty:17,min:7,rack:'F-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=900&q=85'},
+{id:'KUR002',name:'Embroidered Kurta Set',brand:'Manyavar',cat:'Kurtas & Ethnic Wear',price:3299,mrp:4999,qty:13,min:6,rack:'F-02',shelf:'02',bin:'B-05',img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=85'},
+{id:'KUR003',name:'Printed Anarkali Suit',brand:'Biba',cat:'Kurtas & Ethnic Wear',price:2999,mrp:4499,qty:9,min:5,rack:'F-03',shelf:'01',bin:'B-07',img:'https://images.unsplash.com/photo-1597983073493-88cd35cf93d0?auto=format&fit=crop&w=900&q=85'},
+{id:'KUR004',name:'Cotton Churidar Set',brand:'W for Woman',cat:'Kurtas & Ethnic Wear',price:2499,mrp:3599,qty:12,min:6,rack:'F-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=900&q=85'},
+{id:'KUR005',name:'Festive Ethnic Set',brand:'Aurelia',cat:'Kurtas & Ethnic Wear',price:2799,mrp:3999,qty:8,min:5,rack:'F-05',shelf:'02',bin:'B-08',img:'https://images.unsplash.com/photo-1610189022985-0d0e1e44b7c6?auto=format&fit=crop&w=900&q=85'},
+/* BEAUTY */
+{id:'BEA001',name:'Absolute Foundation',brand:'Lakmé',cat:'Makeup & Beauty',price:699,mrp:850,qty:25,min:10,rack:'G-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA002',name:'SuperStay Matte Lipstick',brand:'Maybelline',cat:'Makeup & Beauty',price:599,mrp:749,qty:33,min:12,rack:'G-02',shelf:'02',bin:'B-04',img:'https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA003',name:'Lash Paradise Mascara',brand:'L’Oréal',cat:'Makeup & Beauty',price:899,mrp:1099,qty:18,min:7,rack:'G-03',shelf:'01',bin:'B-06',img:'https://images.unsplash.com/photo-1631214524020-7e18dbd3c1a0?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA004',name:'Gentle Face Wash',brand:'Cetaphil',cat:'Makeup & Beauty',price:549,mrp:699,qty:22,min:8,rack:'G-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA005',name:'Soft Moisturizing Cream',brand:'Nivea',cat:'Makeup & Beauty',price:349,mrp:449,qty:40,min:15,rack:'G-05',shelf:'02',bin:'B-07',img:'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA006',name:'Premium Eau de Parfum',brand:'Fogg',cat:'Makeup & Beauty',price:799,mrp:999,qty:16,min:7,rack:'G-06',shelf:'01',bin:'B-09',img:'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85'},
+/* JEWELLERY */
+{id:'JEW001',name:'Layered Gold-Tone Necklace',brand:'Sukkhi',cat:'Jewellery',price:899,mrp:1499,qty:14,min:6,rack:'H-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85'},
+{id:'JEW002',name:'Classic Pearl Earrings',brand:'Mia',cat:'Jewellery',price:1499,mrp:1999,qty:11,min:5,rack:'H-02',shelf:'02',bin:'B-05',img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=85'},
+{id:'JEW003',name:'Charm Bracelet',brand:'Voylla',cat:'Jewellery',price:799,mrp:1299,qty:19,min:7,rack:'H-03',shelf:'01',bin:'B-07',img:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=900&q=85'},
+{id:'JEW004',name:'Classic Solitaire Ring',brand:'PC Jeweller',cat:'Jewellery',price:4999,mrp:6499,qty:6,min:4,rack:'H-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=85'},
+{id:'JEW005',name:'Traditional Bangles Set',brand:'Rubans',cat:'Jewellery',price:999,mrp:1499,qty:21,min:8,rack:'H-05',shelf:'02',bin:'B-08',img:'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=900&q=85'},
+/* SHOES */
+{id:'SHO001',name:'Air Max Running Shoes',brand:'Nike',cat:'Shoes & Sandals',price:7499,mrp:9999,qty:13,min:6,rack:'I-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO002',name:'Ultraboost Sneakers',brand:'Adidas',cat:'Shoes & Sandals',price:8999,mrp:11999,qty:10,min:5,rack:'I-02',shelf:'02',bin:'B-05',img:'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO003',name:'RS-X Casual Sneakers',brand:'Puma',cat:'Shoes & Sandals',price:4999,mrp:6999,qty:17,min:7,rack:'I-03',shelf:'01',bin:'B-07',img:'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO004',name:'Power Formal Shoes',brand:'Bata',cat:'Shoes & Sandals',price:2299,mrp:3299,qty:24,min:8,rack:'I-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO005',name:'Sports Running Shoes',brand:'Sparx',cat:'Shoes & Sandals',price:1499,mrp:2199,qty:28,min:10,rack:'I-05',shelf:'02',bin:'B-08',img:'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO006',name:'Women’s Comfort Sandals',brand:'Metro',cat:'Shoes & Sandals',price:1299,mrp:1799,qty:20,min:8,rack:'I-06',shelf:'01',bin:'B-09',img:'https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=900&q=85'},
+/* HOME */
+{id:'HOM001',name:'Ergonomic Office Chair',brand:'Green Soul',cat:'Home & Furniture',price:8499,mrp:11999,qty:12,min:5,rack:'J-01',shelf:'01',bin:'B-02',img:'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM002',name:'Solid Wood Study Table',brand:'Urban Ladder',cat:'Home & Furniture',price:9999,mrp:13999,qty:8,min:4,rack:'J-02',shelf:'02',bin:'B-05',img:'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM003',name:'3-Seater Fabric Sofa',brand:'Wakefit',cat:'Home & Furniture',price:22999,mrp:29999,qty:6,min:3,rack:'J-03',shelf:'01',bin:'B-07',img:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM004',name:'King Size Storage Bed',brand:'Wakefit',cat:'Home & Furniture',price:26999,mrp:34999,qty:5,min:3,rack:'J-04',shelf:'03',bin:'B-01',img:'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM005',name:'Modern Table Lamp',brand:'Philips',cat:'Home & Furniture',price:1299,mrp:1799,qty:22,min:8,rack:'J-05',shelf:'02',bin:'B-08',img:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM006',name:'Plastic Storage Cabinet',brand:'Nilkamal',cat:'Home & Furniture',price:4999,mrp:6499,qty:9,min:4,rack:'J-06',shelf:'01',bin:'B-09',img:'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC009',name:'OnePlus 13 5G',brand:'OnePlus',cat:'Electronics',price:69999,mrp:79999,qty:15,min:7,rack:'A-11',shelf:'02',bin:'B-13',img:'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC010',name:'iPad Air',brand:'Apple',cat:'Electronics',price:59900,mrp:64900,qty:10,min:5,rack:'A-12',shelf:'01',bin:'B-14',img:'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=900&q=85'},
+{id:'ELEC011',name:'JBL Wireless Headphones',brand:'JBL',cat:'Electronics',price:4999,mrp:6999,qty:21,min:8,rack:'A-13',shelf:'02',bin:'B-15',img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=85'},
+{id:'APPL007',name:'Air Fryer 4L',brand:'Philips',cat:'Smart Appliances',price:6999,mrp:8999,qty:13,min:6,rack:'B-07',shelf:'01',bin:'B-11',img:'https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=900&q=85'},
+{id:'GROC007',name:'Quaker Oats 1kg',brand:'Quaker',cat:'Groceries',price:189,mrp:225,qty:38,min:12,rack:'D-07',shelf:'01',bin:'B-11',img:'https://images.unsplash.com/photo-1517093728432-a0440f8d45af?auto=format&fit=crop&w=900&q=85'},
+{id:'DRES007',name:'Classic Denim Jacket',brand:'Levi’s',cat:'Dresses',price:2999,mrp:3999,qty:17,min:7,rack:'E-07',shelf:'02',bin:'B-11',img:'https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=900&q=85'},
+{id:'KUR006',name:'Printed Cotton Kurta',brand:'FabIndia',cat:'Kurtas & Ethnic Wear',price:1799,mrp:2299,qty:14,min:6,rack:'F-06',shelf:'01',bin:'B-11',img:'https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=900&q=85'},
+{id:'BEA007',name:'Hydrating Face Serum',brand:'The Ordinary',cat:'Makeup & Beauty',price:899,mrp:1199,qty:27,min:10,rack:'G-07',shelf:'02',bin:'B-11',img:'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=85'},
+{id:'JEW006',name:'Gold-Tone Hoop Earrings',brand:'Mia',cat:'Jewellery',price:1299,mrp:1799,qty:18,min:7,rack:'H-06',shelf:'01',bin:'B-11',img:'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=85'},
+{id:'SHO007',name:'Classic White Sneakers',brand:'Converse',cat:'Shoes & Sandals',price:3999,mrp:4999,qty:16,min:6,rack:'I-07',shelf:'02',bin:'B-11',img:'https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=900&q=85'},
+{id:'HOM007',name:'Modern Floor Lamp',brand:'IKEA',cat:'Home & Furniture',price:3999,mrp:4999,qty:11,min:4,rack:'J-07',shelf:'01',bin:'B-11',img:'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=85'},
+{id:'AUTO004',name:'Car Dash Camera',brand:'70mai',cat:'Automobiles',price:6999,mrp:8999,qty:9,min:4,rack:'C-04',shelf:'02',bin:'B-11',img:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85'}
+];
+
+const categories=[
+['Electronics','💻'],['Smart Appliances','📺'],['Automobiles','🚗'],['Groceries','🛒'],['Dresses','👗'],
+['Kurtas & Ethnic Wear','🥻'],['Makeup & Beauty','💄'],['Jewellery','💎'],['Shoes & Sandals','👟'],['Home & Furniture','🛋️']
+];
+const navItems=[
+['dashboard','▦','Dashboard'],['store','🛍','Customer Store'],['ai','🤖','AI Warehouse Assistant'],['inventory','▤','Inventory'],
+['categories','◇','Categories'],['orders','□','Orders'],['priority','⚡','Order Priority'],['picking','✓','Picking & Packing'],
+['quality','⊙','Quality Check'],['dispatch','➤','Dispatch Tracking'],['analytics','◉','Analytics'],['reports','▧','Reports']
+];
+let current='store', selectedCategory='All Categories', storeSearch='', cart=[], orders=[], selectedOrder=null;
+
+function status(p){if(p.qty===0)return 'Out of Stock';if(p.qty<=p.min)return 'Low Stock';return 'Available'}
+function money(n){return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(n)}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2300)}
+function renderNav(){document.getElementById('nav').innerHTML=navItems.map(n=>`<button class="${current===n[0]?'active':''}" onclick="showPage('${n[0]}')">${n[1]} <span>${n[2]}</span></button>`).join('')}
+function showPage(p){
+ current=p;renderNav();
+ const c=document.getElementById('appContent');
+ if(p==='store')renderStore(c);
+ else if(p==='ai')renderAI(c);
+ else if(p==='categories')renderCategories(c);
+ else if(p==='inventory')renderInventory(c);
+ else if(p==='orders'||p==='priority'||p==='picking'||p==='quality'||p==='dispatch')renderOrders(c,p);
+ else if(p==='dashboard')renderDashboard(c);
+ else if(p==='analytics')renderAnalytics(c);
+ else if(p==='reports')renderReports(c);
+ else c.innerHTML='<h1 class="pageTitle">Notifications</h1>';
+}
+const categoryFallback={
+  'Electronics':'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85',
+  'Smart Appliances':'https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=85',
+  'Automobiles':'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85',
+  'Groceries':'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=85',
+  'Dresses':'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=85',
+  'Kurtas & Ethnic Wear':'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=85',
+  'Makeup & Beauty':'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85',
+  'Jewellery':'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85',
+  'Shoes & Sandals':'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85',
+  'Home & Furniture':'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85'
+};
+function imageFallback(el,p){
+  const fallback=categoryFallback[p.cat];
+  if(fallback && el.dataset.fallback!=='1'){el.dataset.fallback='1';el.src=fallback;return;}
+  el.style.display='none';el.parentElement.classList.add('imageFailed');el.parentElement.innerHTML=`<div style="text-align:center;color:#9bb1bf;padding:18px"><div style="font-size:42px;margin-bottom:8px">📦</div><b>${p.brand}</b><br><span>${p.name}</span></div>`;
+}
+function productCard(p){
+ const s=status(p), d=Math.round((1-p.price/p.mrp)*100);
+ const rating=(p.rating||4.6).toFixed(1), reviews=p.reviews||Math.floor(120+products.indexOf(p)*37);
+ return `<div class="card product" onclick="openProduct('${p.id}')">
+ <div class="productImg"><img src="${p.img}" alt="${p.brand} ${p.name}" loading="lazy" onerror="imageFallback(this,p)"></div>
+ <div class="productBody"><div class="brand">${p.brand}</div><h4>${p.name}</h4><div class="stars">★★★★★ <span class="muted">(${rating} · ${reviews} reviews)</span></div>
+ <div class="price">${money(p.price)} <span class="mrp">${money(p.mrp)}</span> <span class="discount">${d}% off</span></div>
+ <span class="badge ${s==='Low Stock'?'low':s==='Out of Stock'?'out':''}">${s}</span>
+ <div class="location">📍 WH-01 · ${p.rack} · Shelf ${p.shelf} · Bin ${p.bin}<br>Stock: <b>${p.qty}</b> units</div>
+ <button class="btn block" ${p.qty===0?'disabled':''} onclick="event.stopPropagation();addCart('${p.id}')">${p.qty===0?'Out of Stock':'Add to Cart'}</button>
+ </div></div>`
+}
+
+function toggleProfile(){const m=document.getElementById('profileMenu');m.classList.toggle('open');document.getElementById('cartCount').textContent=cart.length}
+function showProfilePage(type){document.getElementById('profileMenu').classList.remove('open');const c=document.getElementById('appContent');if(type==='cart')renderMyCart(c);else if(type==='orders')renderMyOrders(c);else renderAccount(c)}
+function openProduct(id){const p=products.find(x=>x.id===id);if(!p)return;const c=document.getElementById('appContent');const rating=(p.rating||4.6).toFixed(1), reviews=p.reviews||Math.floor(120+products.indexOf(p)*37);c.innerHTML=`<button class="btn secondary" onclick="showPage('store')">← Back to Store</button><div class="productDetail card" style="margin-top:18px;display:grid;grid-template-columns:42% 58%;gap:25px"><div><img src="${p.img}" style="width:100%;height:430px;object-fit:contain;border-radius:15px;background:#102f41"></div><div><div class="brand">${p.brand}</div><h1 class="pageTitle" style="margin-top:6px">${p.name}</h1><div class="stars" style="font-size:18px">★★★★★ <span class="muted">${rating} · ${reviews} verified reviews</span></div><h2 class="price">${money(p.price)} <span class="mrp">${money(p.mrp)}</span> <span class="discount">${Math.round((1-p.price/p.mrp)*100)}% off</span></h2><div class="badge ${status(p)==='Low Stock'?'low':status(p)==='Out of Stock'?'out':''}">${status(p)}</div><div class="card" style="margin-top:20px;background:#102f41"><h3>📦 Stock & Warehouse Details</h3><p>Available Stock: <b>${p.qty} units</b></p><p>Minimum Level: <b>${p.min} units</b></p><p>Location: <b>WH-01 → ${p.rack} → Shelf ${p.shelf} → Bin ${p.bin}</b></p></div><div class="card" style="margin-top:14px;background:#102f41"><h3>⭐ Customer Reviews</h3><p>⭐⭐⭐⭐⭐ <b>Excellent product</b> — Verified customer</p><p>⭐⭐⭐⭐⭐ <b>Good quality and fast delivery</b> — Verified customer</p><p class="muted">${reviews} total reviews</p></div><button class="btn" style="margin-top:15px" ${p.qty===0?'disabled':''} onclick="addCart('${p.id}')">${p.qty===0?'Out of Stock':'🛒 Add to My Cart'}</button></div></div>`}
+function renderMyCart(c){c.innerHTML=`<h1 class="pageTitle">My Cart</h1><p class="subtitle">Products selected from the Customer Store.</p>${cart.length?`<div class="grid">${cart.map(p=>`<div class="card"><h3>${p.name}</h3><p>${p.brand}</p><b>${money(p.price)}</b><button class="btn secondary" style="float:right" onclick="removeCart('${p.id}')">Remove</button></div>`).join('')}</div><div class="card" style="margin-top:20px"><h3>Cart Total: ${money(cart.reduce((a,p)=>a+p.price,0))}</h3><button class="btn" onclick="toast('Demo order placed successfully')">Place Demo Order</button></div>`:`<div class="empty"><h3>Your cart is empty</h3><button class="btn" onclick="showPage('store')">Browse Products</button></div>`}`}
+function removeCart(id){const i=cart.findIndex(x=>x.id===id);if(i>=0)cart.splice(i,1);renderMyCart(document.getElementById('appContent'))}
+function renderMyOrders(c){if(!orders.length)orders=[{id:'ORD1042',customer:'Harika',items:['ELEC001'],priority:'HIGH',status:'Ready for Dispatch',payment:'Paid',delivery:'Express',date:'18 Aug 2026'}];c.innerHTML=`<h1 class="pageTitle">My Orders</h1><p class="subtitle">Track your orders through the complete warehouse workflow.</p><div class="tableWrap"><table class="table"><thead><tr><th>Order</th><th>Date</th><th>Priority</th><th>Status</th><th>Delivery</th></tr></thead><tbody>${orders.map(o=>`<tr><td><b>${o.id}</b></td><td>${o.date}</td><td>${o.priority}</td><td>${o.status}</td><td>${o.delivery}</td></tr>`).join('')}</tbody></table></div>`}
+function renderAccount(c){c.innerHTML=`<h1 class="pageTitle">My Profile</h1><div class="card" style="max-width:600px"><div class="profileBig">H</div><h2>Harika</h2><p class="muted">SmartWare Customer Account</p><hr><p>My Orders: <b>${orders.length}</b></p><p>My Cart: <b>${cart.length} items</b></p><p>Account Status: <b>Active</b></p></div>`}
+
+function getFiltered(){
+ let q=storeSearch.trim().toLowerCase();
+ return products.filter(p=>{
+  const catOk=selectedCategory==='All Categories'||p.cat===selectedCategory;
+  const text=[p.name,p.brand,p.cat,p.id,p.rack].join(' ').toLowerCase();
+  return catOk && (!q||text.includes(q));
+ })
+}
+function renderStore(c){
+ c.innerHTML=`<h1 class="pageTitle">Customer Store</h1><p class="subtitle">Browse the complete warehouse catalogue. Select a category or search any product.</p>
+ <div class="hero"><div><h2>🤖 AI-Powered Shopping + Warehouse Intelligence</h2><p>Find products, stock and exact warehouse locations instantly.</p></div><button class="heroAI" onclick="showPage('ai')" aria-label="Open KW AI Assistant">KW AI Assistant →</button></div>
+ <div class="storeTools"><input id="storeSearch" value="${storeSearch}" placeholder="Search by product, brand, category, product ID or rack...">
+ <select id="categorySelect">${['All Categories',...categories.map(x=>x[0])].map(x=>`<option ${x===selectedCategory?'selected':''}>${x}</option>`).join('')}</select></div>
+ <div class="categoryStrip">${[['All Categories','✨'],...categories].map(x=>`<button class="catBtn ${selectedCategory===x[0]?'active':''}" onclick="selectCategory('${x[0]}')">${x[1]} ${x[0]}</button>`).join('')}</div>
+ <div class="sectionHead"><h3>${selectedCategory}</h3><span class="muted">${getFiltered().length} products found</span></div>
+ <div class="products" id="productGrid"></div>`;
+ document.getElementById('storeSearch').oninput=e=>{storeSearch=e.target.value;renderProductsOnly()};
+ document.getElementById('categorySelect').onchange=e=>{selectedCategory=e.target.value;storeSearch='';renderStore(document.getElementById('appContent'))};
+ renderProductsOnly();
+}
+function renderProductsOnly(){const g=document.getElementById('productGrid');if(!g)return;const arr=getFiltered();g.innerHTML=arr.length?arr.map(productCard).join(''):`<div class="empty"><h3>No products found</h3><p>Try another search or choose <b>All Categories</b>.</p><button class="btn" onclick="selectCategory('All Categories')">Show All Products</button></div>`}
+function selectCategory(cat){selectedCategory=cat;storeSearch='';renderStore(document.getElementById('appContent'))}
+function addCart(id){const p=products.find(x=>x.id===id);if(!p||p.qty===0)return toast('This product is currently unavailable.');cart.push(p);toast(`${p.name} added to cart`);renderStore(document.getElementById('appContent'))}
+function renderCategories(c){
+ c.innerHTML=`<h1 class="pageTitle">Product Categories</h1><p class="subtitle">Every category is connected to the same live warehouse catalogue.</p>
+ <div class="categoryCards">${categories.map(x=>{let count=products.filter(p=>p.cat===x[0]).length;return `<div class="categoryCard"><div class="categoryIcon">${x[1]}</div><h3>${x[0]}</h3><p class="muted">${count} products</p><button class="btn secondary" onclick="selectCategory('${x[0]}');showPage('store')">Browse Category</button></div>`}).join('')}</div>`;
+}
+function aiAnswer(q){
+ const s=q.toLowerCase();
+ let matches=products.filter(p=>{
+  const terms=[p.name,p.brand,p.cat].join(' ').toLowerCase();
+  const keys=s.replace(/[?,.!]/g,' ').split(/\s+/).filter(Boolean);
+  return keys.some(k=>k.length>2&&terms.includes(k));
+ });
+ const brand=['hp','dell','lenovo','asus','apple','samsung','sony','lg','nike','adidas','puma','bata','sparx','biba','fabindia','manyavar','lakme','maybelline','cetaphil','philips','wakefit'].find(b=>s.includes(b));
+ if(brand)matches=products.filter(p=>p.brand.toLowerCase().includes(brand));
+ const cat=categories.find(x=>s.includes(x[0].toLowerCase().split(' ')[0]));
+ if(cat && !brand)matches=products.filter(p=>p.cat===cat[0]);
+ if(s.includes('laptop')&&!brand)matches=products.filter(p=>/laptop/i.test(p.name));
+ if(s.includes('shoe')&&!brand)matches=products.filter(p=>p.cat==='Shoes & Sandals');
+ if(s.includes('rice'))matches=products.filter(p=>/rice/i.test(p.name));
+ if(!matches.length)return `Sorry, I couldn't find a matching product. Try <b>“I need a laptop”</b>, <b>“find Nike shoes”</b>, <b>“Samsung TV”</b>, <b>“rice”</b>, or a category name.`;
+ matches=matches.slice(0,5);
+ return `<b>🤖 KW AI found ${matches.length} matching product${matches.length>1?'s':''}:</b><br><br>`+matches.map(p=>`<div style="padding:10px 0;border-bottom:1px solid #2a5a70"><b>${p.brand} ${p.name}</b><br>Stock: <b>${p.qty}</b> units · ${money(p.price)}<br>📍 WH-01 → ${p.rack} → Shelf ${p.shelf} → Bin ${p.bin}<br>Status: <b>${status(p)}</b></div>`).join('');
+}
+function renderAI(c){
+ c.innerHTML=`<h1 class="pageTitle">AI Warehouse Assistant</h1><p class="subtitle">The main intelligence layer of SMARTWARE AI — ask naturally, just like you would ask a warehouse employee.</p>
+ <div class="aiBox"><div class="aiHead"><h2 style="margin:0">🤖 KW AI Warehouse Assistant</h2><p style="margin:6px 0 0">Inventory search · Exact location · Stock intelligence · Order decisions</p></div>
+ <div class="aiChat" id="aiChat"><div class="msg bot">Hello! I’m <b>KW AI</b>. Ask me things like:<br>• “I need a laptop”<br>• “Where is the HP laptop?”<br>• “Find Nike shoes”<br>• “Do you have Samsung TV?”<br>• “Is rice available?”</div></div>
+ <div class="aiInput"><input id="aiInput" placeholder="Ask KW AI about any product, brand, stock or location..."><button class="btn" onclick="askAI()">Ask AI</button></div></div>`;
+ document.getElementById('aiInput').addEventListener('keydown',e=>{if(e.key==='Enter')askAI()});
+}
+function askAI(){const i=document.getElementById('aiInput'),q=i.value.trim();if(!q)return;const chat=document.getElementById('aiChat');chat.innerHTML+=`<div class="msg user">${q}</div><div class="msg bot">${aiAnswer(q)}</div>`;i.value='';chat.scrollTop=chat.scrollHeight}
+function renderInventory(c){
+ c.innerHTML=`<h1 class="pageTitle">Inventory</h1><p class="subtitle">Live stock, status and exact warehouse locations.</p><div class="tableWrap"><table class="table"><thead><tr><th>Product</th><th>Category</th><th>Brand</th><th>Stock</th><th>Status</th><th>Location</th></tr></thead><tbody>${products.map(p=>`<tr><td><b>${p.name}</b><br><span class="muted">${p.id}</span></td><td>${p.cat}</td><td>${p.brand}</td><td>${p.qty}</td><td><span class="badge ${status(p)==='Low Stock'?'low':status(p)==='Out of Stock'?'out':''}">${status(p)}</span></td><td>WH-01 / ${p.rack} / ${p.shelf} / ${p.bin}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function renderOrders(c,p){
+ if(!orders.length) orders=[{id:'ORD1042',customer:'Ananya Rao',items:['ELEC001'],priority:'HIGH',status:'Ready for Dispatch',payment:'Paid',delivery:'Express',date:'18 Aug 2026'}];
+ const configs={orders:['Order Management','Manage created customer orders, payment and fulfillment status.'],priority:['AI Order Priority','AI ranks orders using urgency, delivery type, stock availability and customer priority.'],picking:['Picking & Packing','Warehouse picking lists, bin locations and packing progress.'],quality:['Quality Check','Verify quantity, packaging, damage status and final quality before dispatch.'],dispatch:['Dispatch Tracking','Track carrier handoff, dispatch status and delivery progress.']};
+ const [title,sub]=configs[p]||configs.orders;
+ if(p==='priority'){c.innerHTML=`<h1 class="pageTitle">${title}</h1><p class="subtitle">${sub}</p><div class="grid">${orders.map(o=>`<div class="card"><span class="badge">${o.priority} PRIORITY</span><h3>${o.id}</h3><p>Customer: <b>${o.customer}</b></p><p>Reason: Express delivery + fulfillment urgency</p><button class="btn" onclick="advanceOrder('${o.id}')">Assign Priority →</button></div>`).join('')}</div>`;return}
+ if(p==='quality'){c.innerHTML=`<h1 class="pageTitle">${title}</h1><p class="subtitle">${sub}</p><div class="grid">${orders.map(o=>`<div class="card"><h3>${o.id}</h3><p>📦 Items verified: <b>Yes</b></p><p>🔍 Packaging: <b>Passed</b></p><p>🛡 Damage check: <b>No Damage</b></p><p>✅ Current Status: <b>${o.status}</b></p><button class="btn" onclick="advanceOrder('${o.id}')">Complete Quality Check</button></div>`).join('')}</div>`;return}
+ if(p==='dispatch'){c.innerHTML=`<h1 class="pageTitle">${title}</h1><p class="subtitle">${sub}</p><div class="grid">${orders.map(o=>`<div class="card"><h3>${o.id}</h3><p>🚚 Carrier: <b>SmartWare Express</b></p><p>📍 From: WH-01</p><p>📦 Status: <b>${o.status}</b></p><div class="timeline"><span class="step done">Packed</span><span class="step done">Quality Checked</span><span class="step current">${o.status}</span><span class="step">In Transit</span><span class="step">Delivered</span></div><button class="btn" style="margin-top:14px" onclick="advanceOrder('${o.id}')">Update Tracking</button></div>`).join('')}</div>`;return}
+ if(p==='picking'){c.innerHTML=`<h1 class="pageTitle">${title}</h1><p class="subtitle">${sub}</p><div class="tableWrap"><table class="table"><thead><tr><th>Order</th><th>Pick Location</th><th>Items</th><th>Picking Status</th><th>Action</th></tr></thead><tbody>${orders.map(o=>`<tr><td><b>${o.id}</b></td><td>WH-01 · A-03 · Shelf 02 · Bin B-12</td><td>${o.items.length}</td><td>${o.status}</td><td><button class="btn secondary" onclick="advanceOrder('${o.id}')">Pick / Pack</button></td></tr>`).join('')}</tbody></table></div>`;return}
+ c.innerHTML=`<h1 class="pageTitle">${title}</h1><p class="subtitle">${sub}</p><div class="tableWrap"><table class="table"><thead><tr><th>Order</th><th>Customer</th><th>Priority</th><th>Status</th><th>Payment</th><th>Delivery</th><th>Action</th></tr></thead><tbody>${orders.map(o=>`<tr><td><b>${o.id}</b></td><td>${o.customer}</td><td>${o.priority}</td><td>${o.status}</td><td>${o.payment}</td><td>${o.delivery}</td><td><button class="btn secondary" onclick="advanceOrder('${o.id}')">Advance</button></td></tr>`).join('')}</tbody></table></div>`
+}
+function advanceOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;const flow=['Created','Priority Assigned','Inventory Checked','Allocated','Picking','Packing','Quality Check','Ready for Dispatch','Dispatched','In Transit','Out for Delivery','Delivered'];let i=flow.indexOf(o.status);o.status=flow[Math.min(i+1,flow.length-1)];toast(`${o.id} → ${o.status}`);showPage(current)}
+function renderDashboard(c){
+ const total=products.reduce((a,p)=>a+p.qty,0),low=products.filter(p=>p.qty<=p.min).length,out=products.filter(p=>p.qty===0).length;
+ c.innerHTML=`<h1 class="pageTitle">Dashboard</h1><p class="subtitle">AI-powered warehouse overview.</p><div class="grid">
+ ${[['Total Products',products.length],['Total Stock Units',total],['Low Stock',low],['Out of Stock',out],['Total Orders',15+orders.length],['Pending Orders',6],['High Priority',4],['Ready for Dispatch',3]].map(x=>`<div class="card stat"><span class="muted">${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div>
+ <div class="section"><div class="card"><h3>🤖 AI Warehouse Recommendation</h3><p>Laptop demand is high. Prioritize Electronics Rack A-03 and monitor HP, Dell and Lenovo stock.</p><p>Smart TV stock should be reviewed before the next dispatch cycle.</p></div></div>`;
+}
+function renderAnalytics(c){c.innerHTML=`<h1 class="pageTitle">Analytics</h1><p class="subtitle">Warehouse efficiency and AI insights.</p><div class="grid">${[['Orders Today','126'],['Completed','94'],['Pending','32'],['High Priority','14'],['Avg Picking Time','8.4 min'],['Avg Packing Time','4.1 min'],['Dispatch Performance','93%'],['Rack Utilization','78%']].map(x=>`<div class="card stat"><span class="muted">${x[0]}</span><strong>${x[1]}</strong></div>`).join('')}</div><div class="section card"><h3>🚨 AI Bottleneck Detection</h3><p><b>Picking</b> is currently the largest bottleneck. Electronics Rack A-03 has frequent access and may benefit from optimized placement.</p></div>`}
+function renderReports(c){c.innerHTML=`<h1 class="pageTitle">AI Daily Warehouse Report</h1><p class="subtitle">Presentation-ready AI-generated summary.</p><div class="card"><h3>Today's Warehouse Summary</h3><p>Total Orders: <b>126</b><br>Completed: <b>94</b><br>Pending: <b>32</b><br>High Priority: <b>14</b><br>Low Stock Products: <b>${products.filter(p=>p.qty<=p.min).length}</b></p><hr><h3>🤖 AI Recommendation</h3><p>Restock low-stock Electronics and Smart Appliance items. Prioritize urgent orders and optimize frequently accessed rack locations.</p><button class="btn" onclick="window.print()">Export / Print Report</button></div>`}
+document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){storeSearch=e.target.value;selectedCategory='All Categories';showPage('store');document.getElementById('storeSearch').focus()}})
+showPage('store');
+</script>
+</body>
+</html>
